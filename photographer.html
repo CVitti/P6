@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
@@ -9,23 +9,27 @@
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+      <a href="./index.html">
+        <img src="assets/images/logo.png" class="logo" alt="Fiesheye Home page"/>
+      </a>
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <div id="photograph-data"></div>
+        <button class="contact_button" onclick="displayModal()" aria-label="Contact Me">Contactez-moi</button>
+        <div id="photograph-picture"></div>
       </div>
     </main>
     <div id="contact_modal">
 			<div class="modal">
-				<header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+				<header aria-labelledby="h2Contact">
+          <h2 id="h2Contact">Contactez-moi</h2>
+          <img src="assets/icons/close.svg" onclick="closeModal()" alt="Bouton de fermeture"/>
         </header>
 				<form>
 					<div>
-						<label>Prénom</label>
-						<input />
+						<label id="labelFirst">Prénom</label>
+						<input aria-labelledby="labelFirst"/>
 					</div>
           <button class="contact_button">Envoyer</button>
 				</form>

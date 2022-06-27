@@ -3,8 +3,13 @@
 body {
     font-family: "DM Sans", sans-serif;
     margin: 0;
+    max-width: 1440px;
+    margin: auto;
 }
 
+a{
+    text-decoration: none;
+}
 
 header {
     display: flex;
@@ -19,19 +24,41 @@ h1 {
     margin-right: 100px;
 }
 
+h1.name{
+    color: #D3573C;
+}
+
 .logo {
     height: 50px;
     margin-left: 100px;
 }
 
+/* Section contenant toutes les cards */
+
 .photographer_section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 70px;
-    margin-top: 100px;
+    margin-top: 70px;
+
+    /* Animation de chargement des cards pour permettre leur chargement complet et mise en forme */
+    animation: loadingPhotographers 0.75s 1.5s;
+    animation-fill-mode: forwards;
+    opacity: 0;
 }
 
-.photographer_section article {
+@keyframes loadingPhotographers{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+/* Mise en forme de la card et du lien de navigation vers la page du photographe */
+
+.photographer_section article, .photographer_section article a{
     justify-self: center;
     display: flex;
     justify-content: center;
@@ -39,12 +66,49 @@ h1 {
     flex-direction: column;
 }
 
+/* Nom du photographe */
 .photographer_section article h2 {
     color: #D3573C;
     font-size: 36px;
+    margin-bottom: 10px;
 }
 
+/* Photo de profil du photographe */
 .photographer_section article img {
     height: 200px;
     width: 200px;
+    border-radius: 100px;
+    object-fit: cover;
+}
+
+.photograph-header img{
+    height: 200px;
+    width: 200px;
+    border-radius: 100px;
+    object-fit: cover;
+}
+
+/* Mise en forme du profil du photographe sur la page photographer.html */
+
+.photograph-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Infos supplémentaires sur le photographe */
+.photographer_section article p{
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+p.bold{
+    font-weight: 600;
+}
+
+/* Mise en forme de son emplacement */
+p.location{
+    color: #901C1C;
 }
