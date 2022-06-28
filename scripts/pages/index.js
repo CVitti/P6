@@ -1,57 +1,47 @@
-    /**
-     * Lecture du json pour extraction des données
-     * @returns photographers = Tableau contenant la liste des photographes et leurs datas
-     */
+/**
+* Lecture du json pour extraction des données
+* @returns photographers = Tableau contenant la liste des photographes et leurs datas
+*/
+
+async function getPhotographers() {
+
+    const response = await fetch("./data/photographers.json")
+    const data = await response.json();        
+    return data.photographers;
+
+}
+
+/**
+ * Création de toutes les cards individuellement via la fonction photographerFactory() puis affichage dans la section photographersSection
+ * @param {*} photographers Tableau contenant la liste de tous les photographes et leurs datas nominatives
+ */
+
+async function displayData(photographers) {
+
+    // Récupération de la section où seront affichées les cards
+    const photographersSection = document.querySelector(".photographer_section");
+
+    // photographerArticle = chaine de caractères qui va contenir le code HTML d'une card retourné par la fonction photographerFactory pour chaque appel
+    let photographerArticle = "";
+     photographers.forEach((photographer) => {
+        // Accumulation du code HTML à chaque appel dans la variable
+        photographerArticle += photographerFactory(photographer);
+    });
+
+    // Affichage de toutes les cards accumulées dans photographerArticle
+    photographersSection.innerHTML = photographerArticle;
+
+};
+
+/**
+ * Chargement des datas et affichage des cards au chargement de la page
+ */
+async function init() {
+
+    const photographers = await getPhotographers();
+    displayData(photographers);
+
+};
     
-    async function getPhotographers() {
-        // Tableau où l'on ajoute les photographes extraits du json
-        let photographers = [];
-
-        await fetch("./data/photographers.json")
-        .then(response => response.json())
-        .then(json => {
-                const photographersList = json["photographers"];                  
-                for (const photographer of photographersList) {
-                    photographers.push(photographer);                        
-                }
-            }
-        )
-        .catch((err) => {console.log(err)});
-
-        // Vérification du tableau contenant les datas des photographes
-        // console.log("Retour de getPhotographers() : ");
-        // console.log(photographers);
-
-        // Retour du tableau de tous les photographes extraits du json
-        return ({
-            photographers: [...photographers]
-        })
-    }
-
-    /**
-     * Création de chaque Card de photographe depuis le tableau récupéré en entrée
-     * @param {*} photographers Récupération du tableau contenant tous les photographes et leurs datas
-     */
-
-    async function displayData(photographers) {
-        const photographersSection = document.querySelector(".photographer_section");
-
-        // console.log("Entrée de displayData :");
-        // console.log(photographers);
-
-        photographers.forEach((photographer) => {
-            const photographerModel = photographerFactory(photographer);
-            const userCardDOM = photographerModel.getUserCardDOM();
-            photographersSection.appendChild(userCardDOM);
-        });
-    };
-
-    async function init() {
-        // Récupère les datas des photographes
-        const { photographers } = await getPhotographers();
-        // Affiche les datas des photographes
-        displayData(photographers);
-    };
-    
-    init();
+init();
     

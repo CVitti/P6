@@ -1,11 +1,31 @@
-#contact_modal {
-    display: none;
-}
+/* Mise en forme de la page photographer.html */
 
+/*  */
+/* Gestion du header */
+/*  */
+
+/* Header contenant les informations du photographe, sa photo de profil et le formulaire de contact */
 .photograph-header {
     background-color: #FAFAFA;
     height: 300px;
     margin: 0 100px;
+    /* Animation de chargement des infos du header pour permettre leur chargement complet et mise en forme */
+    animation: loadingPhotographers 0.75s 1s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+}
+
+/*  */
+/* Gestion des medias */
+/*  */
+
+
+/*  */
+/* Gestion de la modale de contact */
+/*  */
+
+#contact_modal {
+    display: none;
 }
 
 .contact_button {
