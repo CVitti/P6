@@ -1,3 +1,27 @@
+// Gestion du clic sur la flèche pour étendre/réduire la liste de filtres
+document.querySelector("#arrow-down").addEventListener("click", displayFilters);
+document.querySelector("#arrow-up").addEventListener("click", displayFilters);
+
+/**
+ * Gestion de l'affichage des éléments de filtrage des médias
+ */
+function displayFilters(){
+
+    // Afficher/masquer flèche vers le bas
+    document.querySelector("#arrow-up").classList.toggle('visible');
+    document.querySelector("#arrow-up").classList.toggle('hidden');
+
+    // Afficher/masquer flèche vers le bas
+    document.querySelector("#arrow-down").classList.toggle('visible');
+    document.querySelector("#arrow-down").classList.toggle('hidden');
+
+    // Afficher/masquer les boutons de filtre
+    document.querySelector("#sortDate").classList.toggle('visibleButton');
+    document.querySelector("#sortDate").classList.toggle('hidden');
+    document.querySelector("#sortTitle").classList.toggle('visibleButton');
+    document.querySelector("#sortTitle").classList.toggle('hidden');
+}
+
 /**
  * 
  * @returns Tableau des photographes
@@ -46,8 +70,42 @@ function displayHeader(data, idPhotograph){
  * @param {*} medias Liste des medias extraits du json
  * @param {*} idPhotograph identifiant du photographe sur lequel la page est située
  */
-function displayMedia(medias, idPhotograph){
-    // const mediasList = medias.filter(media => media.photographerId == idPhotograph); 
+function displayMedia(medias, photographData, idPhotograph){
+
+    const mediasList = medias.filter(media => media.photographerId == idPhotograph);
+    // console.log("Liste des medias : ", mediasList); 
+
+    // Récupération du prénom du photographe pour accéder au chemin de ses médias
+    const photographer = photographData.filter(photograph => photograph.id == idPhotograph);
+    const firstName = photographer[0].name.split(' ')[0];
+
+    const divPicture = document.getElementById("divMedias");
+    let mediasCards = "";
+
+    for (const mediaItem of mediasList) {
+        // Création de la card
+        // let mediaContent = "";
+
+        // // Ajout du média
+        // if (mediaItem.image) {
+        //     mediaContent += `<img src ="assets/images/${firstName}/${mediaItem.image}" alt="" class="mediaContent">`;
+        // }else if (mediaItem.video) {
+        //     mediaContent += `<video class="mediaContent"> 
+        //                         <source src="assets/images/${firstName}/${mediaItem.video}" type="video/mp4">
+        //                     </video>`;
+        // }else{
+        //     mediaContent += "Format de média incorrect";
+        // }
+        // // Ajout du nom du média
+        // let mediaTitle = `<h2 class="mediaTitle">${mediaItem.title}</h2>`;
+        // // Ajout des likes
+        // let mediaLikes = `<div class="divLikes">${mediaItem.likes}<i class="fa-solid fa-heart fa-lg"></i></div>`;
+        // // Fin de la card
+        // let article = `<article class="articleMedia">${mediaContent}${mediaTitle}${mediaLikes}</article>`;
+        // mediasCards += article;
+        new MediaFactory(mediaItem, firstName);
+    }
+    // divPicture.innerHTML = mediasCards;
 }
 
 /**
@@ -62,7 +120,7 @@ async function initPage(){
     const mediaData = await getMediaData();
 
     displayHeader(photographData, params.get('id'));
-    displayMedia(mediaData, params.get('id'));
+    displayMedia(mediaData, photographData, params.get('id'));
 }
 
 initPage();

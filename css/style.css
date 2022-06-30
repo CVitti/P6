@@ -19,18 +19,17 @@ header {
     height: 90px;
 }
 
+.headerLogo{
+    margin-left: 100px;
+}
+
 h1 {
     color: #901C1C;
     margin-right: 100px;
 }
 
-h1.name{
-    color: #D3573C;
-}
-
 .logo {
     height: 50px;
-    margin-left: 100px;
 }
 
 /* Section contenant toutes les cards */
@@ -42,18 +41,9 @@ h1.name{
     margin-top: 70px;
 
     /* Animation de chargement des cards pour permettre leur chargement complet et mise en forme */
-    animation: loadingPhotographers 0.75s 1.5s;
+    /* animation: loadingFade 1s 1.5s;
     animation-fill-mode: forwards;
-    opacity: 0;
-}
-
-@keyframes loadingPhotographers{
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
+    opacity: 0; */
 }
 
 /* Mise en forme de la card et du lien de navigation vers la page du photographe */
@@ -77,17 +67,8 @@ h1.name{
 img.profile {
     height: 200px;
     width: 200px;
-    border-radius: 100px;
+    border-radius: 100px; 
     object-fit: cover;
-}
-
-/* Mise en forme du profil du photographe sur la page photographer.html */
-
-.photograph-header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
 }
 
 /* Infos supplémentaires sur le photographe */
@@ -104,4 +85,14 @@ p.bold{
 /* Mise en forme de son emplacement */
 p.location{
     color: #901C1C;
+}
+
+
+@keyframes loadingFade{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }

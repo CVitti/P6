@@ -23,10 +23,10 @@ async function displayData(photographers) {
 
     // photographerArticle = chaine de caractères qui va contenir le code HTML d'une card retourné par la fonction photographerFactory pour chaque appel
     let photographerArticle = "";
-     photographers.forEach((photographer) => {
+    photographers.forEach((photographer) => {
         // Accumulation du code HTML à chaque appel dans la variable
-        photographerArticle += photographerFactory(photographer);
-    });
+        photographerArticle += photographerFactory(photographer); 
+    });    
 
     // Affichage de toutes les cards accumulées dans photographerArticle
     photographersSection.innerHTML = photographerArticle;
