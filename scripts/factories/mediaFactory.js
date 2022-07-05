@@ -1,9 +1,12 @@
-class MediaFactory{
-    constructor(options, firstName){
-        if (options.image) {
-            return new Picture(options, firstName);
-        }else if (options.video) {
-            return new Video(options, firstName);
+import Video from "./video.js";
+import Picture from "./picture.js";
+
+export default class MediaFactory{
+    constructor(media, firstName){
+        if(media.image){
+            return new Picture(media, firstName);
+        }else if(media.video){
+            return new Video(media, firstName);
         }
     }
 }

@@ -1,3 +1,5 @@
+import MediaFactory from "../factories/mediaFactory.js";
+
 // Gestion du clic sur la flèche pour étendre/réduire la liste de filtres
 document.querySelector("#arrow-down").addEventListener("click", displayFilters);
 document.querySelector("#arrow-up").addEventListener("click", displayFilters);
@@ -60,7 +62,7 @@ function displayHeader(data, idPhotograph){
     divData.innerHTML = `
         <h1 class="name">${name}</h1>
         <p class="location bold">${city}, ${country}</p>
-        <p>${tagline}</p>`;
+        <p class="smallSpacing">${tagline}</p>`;
 
     divPicture.innerHTML = `<img src="assets/photographers/${portrait}" alt="${name}" class="profile">`;
 }
@@ -68,45 +70,87 @@ function displayHeader(data, idPhotograph){
 /**
  * Mise en page des medias
  * @param {*} medias Liste des medias extraits du json
- * @param {*} idPhotograph identifiant du photographe sur lequel la page est située
+ * @param {*} firstName Prénom du photographe
  */
-function displayMedia(medias, photographData, idPhotograph){
+function displayMedia(medias, firstName){
 
-    const mediasList = medias.filter(media => media.photographerId == idPhotograph);
-    // console.log("Liste des medias : ", mediasList); 
+    const divMedias = document.getElementById("divMedias");
+    let articlesList = "";
 
-    // Récupération du prénom du photographe pour accéder au chemin de ses médias
-    const photographer = photographData.filter(photograph => photograph.id == idPhotograph);
-    const firstName = photographer[0].name.split(' ')[0];
-
-    const divPicture = document.getElementById("divMedias");
-    let mediasCards = "";
-
-    for (const mediaItem of mediasList) {
-        // Création de la card
-        // let mediaContent = "";
-
-        // // Ajout du média
-        // if (mediaItem.image) {
-        //     mediaContent += `<img src ="assets/images/${firstName}/${mediaItem.image}" alt="" class="mediaContent">`;
-        // }else if (mediaItem.video) {
-        //     mediaContent += `<video class="mediaContent"> 
-        //                         <source src="assets/images/${firstName}/${mediaItem.video}" type="video/mp4">
-        //                     </video>`;
-        // }else{
-        //     mediaContent += "Format de média incorrect";
-        // }
-        // // Ajout du nom du média
-        // let mediaTitle = `<h2 class="mediaTitle">${mediaItem.title}</h2>`;
-        // // Ajout des likes
-        // let mediaLikes = `<div class="divLikes">${mediaItem.likes}<i class="fa-solid fa-heart fa-lg"></i></div>`;
-        // // Fin de la card
-        // let article = `<article class="articleMedia">${mediaContent}${mediaTitle}${mediaLikes}</article>`;
-        // mediasCards += article;
-        new MediaFactory(mediaItem, firstName);
+    // Boucle de création des cards
+    for (const mediaItem of medias) {
+        let mediaCard = new MediaFactory(mediaItem, firstName);        
+        
+        articlesList += mediaCard.article;
     }
-    // divPicture.innerHTML = mediasCards;
+
+    // Injection des cards dans la section appropriée
+    divMedias.innerHTML = articlesList;  
+
+    // Ajout d'un évènement de clic sur les coeurs de chaque card pour incrémenter les likes
+    let listDivLike = document.querySelectorAll("div.divLikes");
+    for (const div of listDivLike) {
+        div.addEventListener("click", addLike);
+    }
 }
+
+
+/**
+ * 
+ * @param {*} medias Liste des medias liés à ce photographe
+ * @param {*} price Tarif journalier du photographe
+ * @param {*} id du photographe sélectionné
+ */
+function displayLikesPrice(medias, price, id){
+    const mediasList = medias.filter(media => media.photographerId == id);
+    let divContent = document.getElementById("divLikesPrice");
+    let likesCount = 0;
+    for (const media of mediasList) {
+        likesCount += media.likes;
+    }
+    divContent.innerHTML = `
+                            <div id="divTotalLikes">
+                                <div>${likesCount}</div>
+                                <i class="fa-solid fa-heart"></i>
+                            </div> 
+                            <div>${price}€ / jour</div>
+                            `;
+}
+
+/**
+ * Incrémentation du nombre de likes lors du clic sur le coeur des cards
+ */
+function addLike(){
+    // Incrémentation des likes de la photo choisie
+    let currentLikes = parseInt(this.firstElementChild.innerText);
+    this.firstElementChild.innerText = currentLikes + 1;
+
+    // Retrait de l'event pour ajouter un like et attribution de l'event pour retirer le like
+    this.removeEventListener("click", addLike);
+    this.addEventListener("click", removeLike);
+
+    // Incrémentation du total de likes en bas de page
+    let currentTotal = parseInt(document.getElementById("divTotalLikes").firstElementChild.innerText);
+    document.getElementById("divTotalLikes").firstElementChild.innerText = currentTotal + 1;
+}
+
+/**
+ * Décrémentation du nombre de likes lors du clic sur le coeur des cards déjà likées
+ */
+ function removeLike(){
+    // Incrémentation des likes de la photo choisie
+    let currentLikes = parseInt(this.firstElementChild.innerText);
+    this.firstElementChild.innerText = currentLikes - 1;
+
+    // Retrait de l'event pour retirer un like et attribution de l'event pour ajouter le like
+    this.removeEventListener("click", removeLike);
+    this.addEventListener("click", addLike);
+
+    // Incrémentation du total de likes en bas de page
+    let currentTotal = parseInt(document.getElementById("divTotalLikes").firstElementChild.innerText);
+    document.getElementById("divTotalLikes").firstElementChild.innerText = currentTotal - 1;
+}
+
 
 /**
  * Initialisation de la page via la récupération des datas et ensuite leur traitement
@@ -119,8 +163,17 @@ async function initPage(){
     const photographData = await getPhotographerData();
     const mediaData = await getMediaData();
 
+    // Récupération du prénom et prix du photographe
+    const photographer = photographData.filter(photograph => photograph.id == params.get('id'));
+    const firstName = photographer[0].name.split(' ')[0];
+    const price = photographer[0].price;
+
+    // Filtrage des medias
+    const photographerMedias = mediaData.filter(media => media.photographerId == params.get('id'))
+
     displayHeader(photographData, params.get('id'));
-    displayMedia(mediaData, photographData, params.get('id'));
+    displayMedia(photographerMedias, firstName);
+    displayLikesPrice(photographerMedias, price, params.get('id'));
 }
 
 initPage();

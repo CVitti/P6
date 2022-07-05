@@ -13,7 +13,6 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    letter-spacing: 1px;
 }
 
 h1.name{
@@ -67,21 +66,49 @@ h1.name{
 
 .mediaTitle{
     color: #901C1C;
-    width: 80%;
+    width: 75%;
     margin: 10px 0px;
     display: flex;
     align-items: center;
     font-size: 20px;
-    letter-spacing: 1px;
 }
 
 .divLikes{
     color: #901C1C;
     font-weight: 600;
     margin: 10px 0px;
+    max-width: 80px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    column-gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Encart contenant le total de likes et tarif journalier */
+
+#divLikesPrice{
+    background-color:#D3573C;
+    position: fixed;
+    bottom: 0;
+    right: 30px;
+    padding: 15px 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-weight: 600;
+    font-size: 22px;
+}
+
+#divTotalLikes{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
     column-gap: 10px;
 }
@@ -91,7 +118,6 @@ h1.name{
     display: flex;
     flex-direction: row;
     column-gap: 20px;
-    letter-spacing: 0.5px;
 }
 
 .divFilter label{
@@ -123,7 +149,6 @@ ul{
     cursor: pointer;
     text-align: left;
     width: 100%;
-    letter-spacing: 1px;
 }
 
 button.firstFilter{
@@ -156,6 +181,16 @@ li span{
     display: block;
 }
 
+/* Espacement des lettres */
+
+.smallSpacing{
+    letter-spacing: 0.5px;
+}
+
+.spacing{
+    letter-spacing: 1px;
+}
+
 /*  */
 /* Gestion de la modale de contact */
 /*  */
@@ -186,7 +221,10 @@ li span{
     align-items: center;
     justify-content: space-between;
     padding: 35px;
-    margin: auto;
+    margin: 0px;
+    position: fixed;
+    top : 100px;
+    left: 25%;
 }
 
 .modal header {
@@ -199,7 +237,7 @@ li span{
 }
 
 .modal header h2 {
-    font-size: 64px;
+    font-size: 50px;
     font-weight: normal;
     text-align: center;
 }
@@ -225,8 +263,15 @@ form div {
 }
 
 form input {
-    width: 100%;
+    width: calc(100% - 20px);
     height: 68px;
     border: none;
     border-radius: 5px;
+    font-size: 36px;
+    padding-left: 20px;
+    outline-color: #901C1C;
+}
+
+form input.inputMessage{
+    height: 200px;
 }

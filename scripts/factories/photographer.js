@@ -11,7 +11,7 @@ function photographerFactory(data) {
     // Création de la card avec les valeurs récupérées
     const article = `
         <article>
-            <a href= "./photographer.html?id=${id}" aria-label="${name} class="profile-link" >
+            <a href= "./photographer.html?id=${id}" aria-label="${name}" class="profile-link" >
             <img src="assets/photographers/${portrait}" alt="" class="profile"></img>
                 <h2>${name}</h2>
             </a>

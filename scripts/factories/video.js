@@ -1,7 +1,14 @@
-class Video extends Media{
+import Media from "./media.js";
+
+export default class Video extends Media{
     constructor(options, firstName){
-        // console.log("Video : ", options);
-        let mediaContent = `<video class="mediaContent"><source src="assets/images/${firstName}/${options.video}" type="video/mp4"></video>`;
-        super(options, mediaContent);
+        super(options);
+        this.video = options.video;
+        this.firstName = firstName;
+        this.create();
+    }
+    create(){
+        let mediaContent = `<video class="mediaContent"><source src="assets/images/${this.firstName}/${this.video}" type="video/mp4"></video>`;
+        super.create(mediaContent);
     }
 }

@@ -18,19 +18,20 @@
     </a>
   </header>
   <main id="main">
-    <div class="photograph-header">
+    <!-- Section contenant les infos sur le photographe, la modale et son image de profil -->
+    <section class="photograph-header spacing">
       <div id="photograph-data"></div>
-      <button class="contact_button" onclick="displayModal()" aria-label="Contact Me">Contactez-moi</button>
+      <button class="contact_button" onclick="displayModal()" aria-label="Contactez Moi">Contactez-moi</button>
       <div id="photograph-picture"></div>
-    </div>
-    
+    </section>
+
+    <!-- Section affichant tous les médias du photographe -->
     <section class="media-section">
-      <div class="divFilter">
-        <h2 class="hidden">Trier par</h2>
-        <label for="firstFilter">Trier par</label>
+      <div class="divFilter smallSpacing">
+        <label id="labelTri">Trier par</label>
         <ul>
           <li>
-            <button id="firstFilter" class="listButton firstFilter">Popularité</button>
+            <button id="firstFilter" class="listButton spacing firstFilter" aria-labelledby="labelTri">Popularité</button>
             <span id="arrow-down" class="visible">
               <i class="fa-solid fa-angle-down fa-lg"></i>
             </span>
@@ -38,12 +39,13 @@
               <i class="fa-solid fa-angle-up fa-lg"></i>
             </span>            
           </li>
-          <li class="hidden" id="sortDate"><button class="listButton">Date</button></li>
-          <li class="hidden" id="sortTitle"><button class="listButton">Titre</button></li>
+          <li class="hidden" id="sortDate"><button class="listButton spacing" aria-labelledby="labelTri">Date</button></li>
+          <li class="hidden" id="sortTitle"><button class="listButton spacing" aria-labelledby="labelTri">Titre</button></li>
         </ul>
       </div>
       <div id="divMedias"></div>      
     </section>
+    <div id="divLikesPrice"></div>
   </main>
   <div id="contact_modal">
     <div class="modal">
@@ -54,17 +56,19 @@
       <form>
         <div>
           <label id="labelFirst">Prénom</label>
-          <input aria-labelledby="labelFirst"/>
+          <input aria-labelledby="labelFirst" type="text"/>
+          <label id="labelName">Nom</label>
+          <input aria-labelledby="labelName" type="text"/>
+          <label id="labelEmail">Email</label>
+          <input aria-labelledby="labelEmail" type="text"/>
+          <label id="labelMessage">Votre Message</label>
+          <input class="inputMessage" aria-labelledby="labelMessage" type="text"/>
         </div>
         <button class="contact_button">Envoyer</button>
       </form>
     </div>
   </div>
   <script src="/scripts/utils/contactForm.js"></script>
-  <script src="/scripts/pages/photographer.js"></script>
-  <script src="/scripts/factories/media.js"></script>
-  <script src="/scripts/factories/picture.js"></script>
-  <script src="/scripts/factories/video.js"></script>
-  <script src="/scripts/factories/mediaFactory.js"></script>
+  <script src="/scripts/pages/photographer.js" type="module"></script>
 </body>
 </html>

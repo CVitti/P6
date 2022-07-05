@@ -1,7 +1,15 @@
-class Picture extends Media{
+import Media from "./media.js";
+
+export default class Picture extends Media{
     constructor(options, firstName){
-        // console.log("Picture : ", options);
-        let mediaContent = `<img src="assets/images/${firstName}/${options.image}" alt="" class="mediaContent">`;
-        super(options, mediaContent);
+        super(options);
+        this.image = options.image;
+        this.title = options.title;
+        this.firstName = firstName;
+        this.create();
+    }
+    create(){
+        let mediaContent = `<img src="assets/images/${this.firstName}/${this.image}" alt="${this.title}" class="mediaContent">`;
+        super.create(mediaContent);
     }
 }
