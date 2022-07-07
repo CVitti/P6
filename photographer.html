@@ -5,7 +5,7 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css" integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/4e18fab892.js" crossorigin="anonymous"></script>
-
+  
   <meta charset="utf-8">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
@@ -24,14 +24,14 @@
       <button class="contact_button" onclick="displayModal()" aria-label="Contactez Moi">Contactez-moi</button>
       <div id="photograph-picture"></div>
     </section>
-
+    
     <!-- Section affichant tous les médias du photographe -->
     <section class="media-section">
       <div class="divFilter smallSpacing">
         <label id="labelTri">Trier par</label>
         <ul>
-          <li>
-            <button id="firstFilter" class="listButton spacing firstFilter" aria-labelledby="labelTri">Popularité</button>
+          <li id="firstOption">
+            <button class="listButton spacing firstFilter" aria-labelledby="labelTri">Popularité</button>
             <span id="arrow-down" class="visible">
               <i class="fa-solid fa-angle-down fa-lg"></i>
             </span>
@@ -39,32 +39,80 @@
               <i class="fa-solid fa-angle-up fa-lg"></i>
             </span>            
           </li>
-          <li class="hidden" id="sortDate"><button class="listButton spacing" aria-labelledby="labelTri">Date</button></li>
-          <li class="hidden" id="sortTitle"><button class="listButton spacing" aria-labelledby="labelTri">Titre</button></li>
+          <li class="hidden" id="secondOption"><button class="listButton spacing" aria-labelledby="labelTri">Date</button></li>
+          <li class="hidden" id="thirdOption"><button class="listButton spacing" aria-labelledby="labelTri">Titre</button></li>
         </ul>
       </div>
       <div id="divMedias"></div>      
     </section>
     <div id="divLikesPrice"></div>
   </main>
+  
+  <!-- Modale de la Lightbox -->
+  <div id="lightbox" tabindex="-1">
+    <div id="contentLightbox" aria-label="Vue agrandie du média">
+      <button class="previousMedia lightboxIcon" aria-label="Média précédent"><i class="fa-solid fa-angle-left fa-4x"></i></button>
+      <div id="divMediaLightbox"></div>
+      <button class="nextMedia lightboxIcon" aria-label="Média suivant"><i class="fa-solid fa-angle-right fa-4x"></i></button>
+      <button class="closeLightbox lightboxIcon" aria-label="Fermer la fenêtre"><i class="fa-solid fa-xmark fa-4x"></i></button>
+    </div>
+  </div>
+  
+  <!-- Modale du formulaire -->
   <div id="contact_modal">
     <div class="modal">
       <header aria-labelledby="h2Contact">
         <h2 id="h2Contact">Contactez-moi</h2>
         <img src="assets/icons/close.svg" onclick="closeModal()" alt="Bouton de fermeture"/>
       </header>
-      <form>
+      <form id="formContact">
         <div>
-          <label id="labelFirst">Prénom</label>
-          <input aria-labelledby="labelFirst" type="text"/>
-          <label id="labelName">Nom</label>
-          <input aria-labelledby="labelName" type="text"/>
-          <label id="labelEmail">Email</label>
-          <input aria-labelledby="labelEmail" type="text"/>
-          <label id="labelMessage">Votre Message</label>
-          <input class="inputMessage" aria-labelledby="labelMessage" type="text"/>
+          <div class="divField" id="divFirstname">
+            <label id="labelFirst">Prénom</label>
+            <input 
+            aria-labelledby="labelFirst" 
+            type="text" 
+            id="inputFirstname" 
+            name = "Prénom"
+            minlength="2" 
+            pattern="[a-zA-ZàâäæÀÂÄÆçÇéèêëÉÈÊËîïÎÏñÑôöÔÖœŒùûüÙÛÜÿŸ -]{2,}"
+            required/>
+          </div>          
+          
+          <div class="divField" id="divLastname">
+            <label id="labelName">Nom</label>
+            <input 
+            aria-labelledby="labelName" 
+            type="text" 
+            id="inputLastname"
+            name = "Nom"
+            minlength="2" 
+            pattern="[a-zA-ZàâäæÀÂÄÆçÇéèêëÉÈÊËîïÎÏñÑôöÔÖœŒùûüÙÛÜÿŸ -]{2,}"
+            required/>
+          </div>          
+          
+          <div class="divField" id="divEmail">
+            <label id="labelEmail">Email</label>
+            <input 
+            aria-labelledby="labelEmail" 
+            type="email" 
+            name = "Email"
+            id="inputEmail"
+            required/>
+          </div>
+
+          <div class="divField" id="divMessage">
+            <label id="labelMessage">Votre Message</label>
+            <textarea class="inputMessage" 
+            aria-labelledby="labelMessage" 
+            minlength="10" 
+            name = "Message"
+            id="inputMessage"
+            required></textarea>
+          </div>
+                    
         </div>
-        <button class="contact_button">Envoyer</button>
+        <button class="contact_button" id="submitContact">Envoyer</button>
       </form>
     </div>
   </div>

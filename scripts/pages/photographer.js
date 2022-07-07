@@ -1,4 +1,5 @@
 import MediaFactory from "../factories/mediaFactory.js";
+import Lightbox from "../utils/Lightbox.js";
 
 // Gestion du clic sur la flèche pour étendre/réduire la liste de filtres
 document.querySelector("#arrow-down").addEventListener("click", displayFilters);
@@ -18,10 +19,10 @@ function displayFilters(){
     document.querySelector("#arrow-down").classList.toggle('hidden');
 
     // Afficher/masquer les boutons de filtre
-    document.querySelector("#sortDate").classList.toggle('visibleButton');
-    document.querySelector("#sortDate").classList.toggle('hidden');
-    document.querySelector("#sortTitle").classList.toggle('visibleButton');
-    document.querySelector("#sortTitle").classList.toggle('hidden');
+    document.querySelector("#secondOption").classList.toggle('visible');
+    document.querySelector("#secondOption").classList.toggle('hidden');
+    document.querySelector("#thirdOption").classList.toggle('visible');
+    document.querySelector("#thirdOption").classList.toggle('hidden');
 }
 
 /**
@@ -63,7 +64,7 @@ function displayHeader(data, idPhotograph){
         <h1 class="name">${name}</h1>
         <p class="location bold">${city}, ${country}</p>
         <p class="smallSpacing">${tagline}</p>`;
-
+        
     divPicture.innerHTML = `<img src="assets/photographers/${portrait}" alt="${name}" class="profile">`;
 }
 
@@ -91,6 +92,14 @@ function displayMedia(medias, firstName){
     let listDivLike = document.querySelectorAll("div.divLikes");
     for (const div of listDivLike) {
         div.addEventListener("click", addLike);
+    }
+
+    let listMediaLinks = document.querySelectorAll("a.mediaLink");
+    let lightbox = new Lightbox(medias, firstName);
+    for (const link of listMediaLinks) {
+        link.addEventListener("click", (e) => {
+            lightbox.show(e.currentTarget.dataset.id);
+        });
     }
 }
 
