@@ -29,18 +29,22 @@
     <section class="media-section">
       <div class="divFilter smallSpacing">
         <label id="labelTri">Trier par</label>
-        <ul>
+        <ul id="listFilters">
           <li id="firstOption">
-            <button class="listButton spacing firstFilter" aria-labelledby="labelTri">Popularité</button>
-            <span id="arrow-down" class="visible">
-              <i class="fa-solid fa-angle-down fa-lg"></i>
-            </span>
-            <span id="arrow-up" class="hidden">
-              <i class="fa-solid fa-angle-up fa-lg"></i>
-            </span>            
+            <button class="listButton spacing" id="btnSortLikes" aria-labelledby="labelTri">Popularité</button>          
           </li>
-          <li class="hidden" id="secondOption"><button class="listButton spacing" aria-labelledby="labelTri">Date</button></li>
-          <li class="hidden" id="thirdOption"><button class="listButton spacing" aria-labelledby="labelTri">Titre</button></li>
+          <span id="arrow-down" class="visible" tabindex="0">
+            <i class="fa-solid fa-angle-down fa-lg"></i>
+          </span>
+          <span id="arrow-up" class="hidden" tabindex="0">
+            <i class="fa-solid fa-angle-up fa-lg"></i>
+          </span>  
+          <li class="hidden" id="secondOption">
+            <button class="listButton spacing" id="btnSortDate" aria-labelledby="labelTri">Date</button>
+          </li>
+          <li class="hidden" id="thirdOption">
+            <button class="listButton spacing" id="btnSortTitle" aria-labelledby="labelTri">Titre</button>
+          </li>
         </ul>
       </div>
       <div id="divMedias"></div>      

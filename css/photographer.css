@@ -38,7 +38,7 @@ h1.name{
     column-gap: 50px;
     row-gap: 50px;
     justify-content: space-evenly;
-    padding-bottom: 40px;
+    padding-bottom: 70px;
 }
 
 /* Animation de chargement des infos du header pour permettre leur chargement complet et mise en forme */
@@ -161,6 +161,7 @@ ul{
     padding: 0px 10px;   
     height: fit-content; 
     user-select: none;
+    position: relative;
 }
 
 .listButton{
@@ -169,8 +170,7 @@ ul{
     font-size: 18px;
     color: white;
     padding: 10px;
-    padding-right: 0px;
-    height: 50px;
+    height: 52px;
     border: none;
     background-color: #901C1C;
     cursor: pointer;
@@ -178,20 +178,11 @@ ul{
     width: 100%;
 }
 
-ul li#firstOption{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-li#firstOption button{
-    width: calc(100% - 45px);
-}
-
-li span{
+span#arrow-down, span#arrow-up{
     color: white;
-    padding-right: 10px;
+    position: absolute;
+    top: 15px;
+    right: 20px;
 }
 
 #secondOption, #thirdOption{
@@ -338,6 +329,11 @@ form input[data-valid=""], form textarea.inputMessage[data-valid=""]{
 .divField[data-error]::after{
     content: attr(data-error);
     display: block;
+}
+
+.divField[data-error=""]::after{
+    content: none;
+    display: none;
 }
 
 form textarea.inputMessage{

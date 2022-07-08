@@ -1,9 +1,5 @@
-import MediaFactory from "../factories/mediaFactory.js";
+import MediaFactory from "../factories/MediaFactory.js";
 import Lightbox from "../utils/Lightbox.js";
-
-// Gestion du clic sur la flèche pour étendre/réduire la liste de filtres
-document.querySelector("#arrow-down").addEventListener("click", displayFilters);
-document.querySelector("#arrow-up").addEventListener("click", displayFilters);
 
 /**
  * Gestion de l'affichage des éléments de filtrage des médias
@@ -41,7 +37,6 @@ async function getPhotographerData(){
  * @returns Tableau des medias
  */
 async function getMediaData(){
-    
     const response = await fetch("./data/photographers.json")
     const data = await response.json(); 
     return data.media;
@@ -52,6 +47,7 @@ async function getMediaData(){
  * @param {*} data Liste des photographes extraits du json
  * @param {*} idPhotograph identifiant du photographe sur lequel la page est située
  */
+
 function displayHeader(data, idPhotograph){
 
     const photographer = data.filter(photograph => photograph.id == idPhotograph);
@@ -73,15 +69,96 @@ function displayHeader(data, idPhotograph){
  * @param {*} medias Liste des medias extraits du json
  * @param {*} firstName Prénom du photographe
  */
-function displayMedia(medias, firstName){
 
-    const divMedias = document.getElementById("divMedias");
-    let articlesList = "";
+function displayMedia(medias, firstName, sortBy){
 
+    const divMedias = document.getElementById("divMedias"); // Récupération de la section où seront affichés les médias
+    let articlesList = ""; // Contiendra le code HTML des articles à créer
+    let sortedMedias = null; // Contiendra un tableau avec les médias triés
+    let temp = null; // Conteneur temporaire pour changer l'ordre des options de tri
+    let currentParent = null; // Contiendra l'id de l'élément parent du tri sélectionné pour inverser l'ordre des options
+
+    switch (sortBy) {
+
+        // Tri décroissant sur les likes du média, inverser les opérateurs de comparaison pour passer en tri croissant
+        case "Likes":
+            sortedMedias = medias.sort(function(a, b) {
+                if (a.likes < b.likes) {
+                    return 1;
+                } else if(a.likes > b.likes){
+                    return -1;
+                }else{
+                    return 0;
+                }
+            });
+            currentParent = document.getElementById("btnSortLikes").parentElement.id;
+            break;
+
+        // Tri décroissant sur la date du média
+        case "Date":
+            sortedMedias = medias.sort(function(a, b) {
+                a = new Date(a.date);
+                b = new Date(b.date);
+                if (a < b) {
+                    return 1;
+                } else if(a > b){
+                    return -1;
+                }else{
+                    return 0;
+                }
+            });
+            currentParent = document.getElementById("btnSortDate").parentElement.id;
+            break;
+
+        // Tri croissant sur le nom du média
+        case "Title":
+            sortedMedias = medias.sort(function(a, b) {
+                if (a.title > b.title) {
+                    return 1;
+                } else if(a.title < b.title){
+                    return -1;
+                }else{
+                    return 0;
+                }
+            });
+            currentParent = document.getElementById("btnSortTitle").parentElement.id;
+            break;
+            
+        // Tri par défaut positionné sur les likes, tri décroissant
+        default:
+            sortedMedias = medias.sort(function(a, b) {
+                if (a.likes < b.likes) {
+                    return 1;
+                } else if(a.likes > b.likes){
+                    return -1;
+                }else{
+                    return 0;
+                }
+            });
+            currentParent = document.getElementById("btnSortLikes").parentElement.id;
+            break;
+    }
+
+    // Réorganisation de la liste de tri
+    temp = document.getElementById("firstOption").innerHTML;
+    document.getElementById("firstOption").innerHTML = document.getElementById(currentParent).innerHTML;
+    document.getElementById(currentParent).innerHTML = temp;
+
+    // Ajout des fonctions déclenchées par le clic sur les boutons du menu de tri.
+    document.querySelector("#btnSortLikes").addEventListener("click", () => {
+        displayMedia(sortedMedias, firstName, "Likes");
+    });
+    document.querySelector("#btnSortDate").addEventListener("click", () => {
+        displayMedia(sortedMedias, firstName, "Date");
+    });
+    document.querySelector("#btnSortTitle").addEventListener("click", () => {
+        displayMedia(sortedMedias, firstName, "Title");
+    });
+
+    
     // Boucle de création des cards
-    for (const mediaItem of medias) {
+    for (const mediaItem of sortedMedias) {
         let mediaCard = new MediaFactory(mediaItem, firstName);        
-        
         articlesList += mediaCard.article;
     }
 
@@ -94,8 +171,9 @@ function displayMedia(medias, firstName){
         div.addEventListener("click", addLike);
     }
 
+    // Gestion de la lightbox sur le lien de chaque média
     let listMediaLinks = document.querySelectorAll("a.mediaLink");
-    let lightbox = new Lightbox(medias, firstName);
+    let lightbox = new Lightbox(sortedMedias, firstName);
     for (const link of listMediaLinks) {
         link.addEventListener("click", (e) => {
             lightbox.show(e.currentTarget.dataset.id);
@@ -117,13 +195,11 @@ function displayLikesPrice(medias, price, id){
     for (const media of mediasList) {
         likesCount += media.likes;
     }
-    divContent.innerHTML = `
-                            <div id="divTotalLikes">
+    divContent.innerHTML = `<div id="divTotalLikes">
                                 <div>${likesCount}</div>
                                 <i class="fa-solid fa-heart"></i>
                             </div> 
-                            <div>${price}€ / jour</div>
-                            `;
+                            <div>${price}€ / jour</div>`;
 }
 
 /**
@@ -180,9 +256,28 @@ async function initPage(){
     // Filtrage des medias
     const photographerMedias = mediaData.filter(media => media.photographerId == params.get('id'))
 
+    // Appel des fonctions pour afficher les infos du photographe, ses médias ainsi que son total de likes et son tarif journalier 
     displayHeader(photographData, params.get('id'));
-    displayMedia(photographerMedias, firstName);
+    displayMedia(photographerMedias, firstName, null);
     displayLikesPrice(photographerMedias, price, params.get('id'));
+
+    // Gestion du clic sur la flèche pour étendre/réduire la liste de filtres
+    document.querySelector("#arrow-down").addEventListener("click", displayFilters);
+    document.querySelector("#arrow-up").addEventListener("click", displayFilters);
+
+    // Gestion du clavier lors des interactions avec la flèche pour étendre/réduire la liste de filtres
+    document.querySelector("#arrow-down").addEventListener("keyup", (e) =>{
+        // Keycode 13 = Entrée
+        if (e.keyCode == "13"){
+            displayFilters();
+        }
+    });
+    document.querySelector("#arrow-up").addEventListener("keyup", (e) =>{
+        // Keycode 13 = Entrée
+        if (e.keyCode == "13"){
+            displayFilters();
+        }
+    });
 }
 
 initPage();

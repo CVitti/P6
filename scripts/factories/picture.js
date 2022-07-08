@@ -1,4 +1,4 @@
-import Media from "./media.js";
+import Media from "./Media.js";
 
 export default class Picture extends Media{
     constructor(options, firstName){

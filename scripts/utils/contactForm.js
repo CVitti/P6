@@ -27,8 +27,8 @@ function displayModal() {
 function closeModal() {
     const modal = document.getElementById("contact_modal");
     for (const field of fields) {
-        field.removeAttribute("data-error");
-        field.removeAttribute("data-valid");
+        document.getElementById(field.id).parentElement.dataset.error = "";
+        document.getElementById(field.id).dataset.valid = "";
     }
     document.forms["formContact"].reset();
     modal.style.display = "none";
@@ -42,71 +42,36 @@ function checkFieldValidity(input){
 
     // Par défaut, le champ est positionné comme valide avant vérification
     let valid = true;
-    let error = null;
+    let errorText = null;
 
     // Vérification des différents types d'erreur possibles
     if(input.validity.tooShort){
         valid = false;
-        error = `Ce champ doit contenir au minimum ${input.minLength} caractères.`;
+        errorText = `Ce champ doit contenir au minimum ${input.minLength} caractères.`;
     }else if(input.validity.valueMissing){
         valid = false;
-        error = `Ce champ est obligatoire pour valider le formulaire.`;
+        errorText = `Ce champ est obligatoire pour valider le formulaire.`;
     }else if(input.validity.patternMismatch){
         valid = false;
         if (input.id == "inputFirstname" || input.id == "inputLastname") {
-            error = `Ce champ ne peut contenir que des lettres (avec ou sans accent), des tirets ou des espaces.`;
+            errorText = `Ce champ ne peut contenir que des lettres (avec ou sans accent), des tirets ou des espaces.`;
         } 
     }else if(input.validity.typeMismatch){
         valid = false;
         if (input.id == "inputFirstname" || input.id == "inputLastname") {
-            error = `Ce champ doit contenir du texte`;
+            errorText = `Ce champ doit contenir du texte`;
         } else if(input.id == "inputEmail"){
-            error = `Ce champ doit contenir une adresse email valide : example@mail.com`;
+            errorText = `Ce champ doit contenir une adresse email valide : example@mail.com`;
         }
-    }
-
-    // Si une erreur est retournée, ajout de l'attribut error dans le dataset pour afficher l'erreur via le CSS
-    if (error != null) {
-        switch (input.id) {
-            case "inputFirstname":
-                document.getElementById("divFirstname").setAttribute("data-error", error);
-                break;
-            case "inputLastname":
-                document.getElementById("divLastname").setAttribute("data-error", error);
-                break;
-            case "inputEmail":
-                document.getElementById("divEmail").setAttribute("data-error", error);
-                break;
-            case "inputMessage":
-                document.getElementById("divMessage").setAttribute("data-error", error);
-                break;
-        }
-    }
-    // Cas où aucune erreur n'est détectée sur le champ, suppression de l'attribut error
-    else{ 
-        switch (input.id) {
-            case "inputFirstname":
-                document.getElementById("divFirstname").removeAttribute("data-error");
-                break;
-            case "inputLastname":
-                document.getElementById("divLastname").removeAttribute("data-error");
-                break;
-            case "inputEmail":
-                document.getElementById("divEmail").removeAttribute("data-error");
-                break;
-            case "inputMessage":
-                document.getElementById("divMessage").removeAttribute("data-error");
-                break;
-        }
-    }
-
-    // Selon si le champ est valide ou non, modification de l'attribut valid du dataset pour la mise en forme du champ vérifié
-    if(valid){
-        input.dataset.valid = "true";
     }else{
-        input.dataset.valid = "false";
+        errorText = "";
     }
 
+    // Ajout de l'erreur dans le dataset du parent contenant l'input en erreur, pour affichage via le css (pseudo-élément ::after)
+    document.getElementById(input.id).parentElement.dataset.error = errorText;
+
+    // Modification de l'attribut valid du dataset pour la mise en forme (via CSS) du champ vérifié
+    input.dataset.valid = valid;
     return valid;
 }
 
