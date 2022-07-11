@@ -4,7 +4,6 @@ export default class Lightbox{
         this.mediasList = mediasList;
         this.firstname = firstname;
         this.manageEvents();
-        
     }
 
     // Affichage de la lightbox
@@ -37,19 +36,31 @@ export default class Lightbox{
     }
 
     close(){
+        // Gestion de l'accessiblité sur la modale et le main, à l'ouverture de la lightbox
+        document.getElementById("main").ariaHidden = "false";
+        document.getElementById("lightbox").ariaHidden = "true";
+
+        // Disparition de la lightbox
         document.querySelector("#lightbox").classList.remove("displayMedia");
+
+        // Focus remis sur le média que l'on vient de quitter depuis le lightbox
+        document.getElementById(this.currentElement.id).focus();
     }
 
     displayMedia(){
         let media = "";
         if(this.currentElement.image){
             media = `<img src="assets/images/${this.firstname}/${this.currentElement.image}" alt="${this.currentElement.title}" class="lightboxMedia">
-                    <h2 class="mediaTitle spacing">${this.currentElement.title}</h2>`;
+                    <p class="mediaTitle spacing">${this.currentElement.title}</p>`;
         }else if(this.currentElement.video){
             media = `<video controls class="lightboxMedia"><source src="assets/images/${this.firstname}/${this.currentElement.video}" type="video/mp4"></video>
-                    <h2 class="mediaTitle spacing">${this.currentElement.title}</h2>`;
+                    <p class="mediaTitle spacing">${this.currentElement.title}</p>`;
         }
         document.getElementById("divMediaLightbox").innerHTML = media;
+
+        // Gestion de l'accessiblité sur la modale et le main, à l'ouverture de la lightbox
+        document.getElementById("main").ariaHidden = "true";
+        document.getElementById("lightbox").ariaHidden = "false";
         document.querySelector("#lightbox").classList.add("displayMedia");
     }
 
@@ -78,19 +89,45 @@ export default class Lightbox{
             }            
         });
 
-        // Gestion de la navigation au clavier sur la lightbox
-        document.querySelector("#lightbox").addEventListener("keyup", (e) => {
+        // Gestion de la navigation au clavier
+        const focusableElements = document.querySelectorAll("#lightbox .nextMedia, #lightbox .previousMedia, #lightbox .closeLightbox");
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[(focusableElements.length - 1)];
+
+        document.querySelector("#lightbox").addEventListener("keydown", (e) =>{      
+            
+            // Gestion des boutons de la lightbox à atteindre via Tab/Shift + Tab
+            if(e.target == lastElement){
+                // @ts-ignore
+                if(!e.shiftKey && e.key === "Tab"){
+                    e.preventDefault();
+                    document.getElementById(firstElement.id).focus();
+                }
+            }else if(e.target == firstElement){
+                // @ts-ignore
+                if(e.shiftKey && e.key === 'Tab'){
+                    e.preventDefault();
+                    document.getElementById(lastElement.id).focus();
+                }
+            }
+
+            // Gestion des flèches pour naviguer entre les médias et Echap pour fermer la lightbox
+            // @ts-ignore
             switch (e.key){
                 case "ArrowLeft":
+                    e.preventDefault();
                     this.previous();
                     break;
                 case "ArrowRight":
+                    e.preventDefault();
                     this.next();
                     break;
                 case "Escape":
+                    e.preventDefault();
                     this.close();
                     break;
-            }          
+            }
+    
         });
     }
 

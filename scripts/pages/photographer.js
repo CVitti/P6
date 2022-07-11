@@ -14,6 +14,13 @@ function displayFilters(){
     document.querySelector("#arrow-down").classList.toggle('visible');
     document.querySelector("#arrow-down").classList.toggle('hidden');
 
+    // Mise en place du focus sur la flèche qui reste affichée après développement/réduction des options
+    if(document.querySelector("#arrow-down").classList.contains("visible")){
+        document.getElementById("arrow-down").focus();
+    }else{
+        document.getElementById("arrow-up").focus();
+    }
+
     // Afficher/masquer les boutons de filtre
     document.querySelector("#secondOption").classList.toggle('visible');
     document.querySelector("#secondOption").classList.toggle('hidden');
@@ -158,7 +165,8 @@ function displayMedia(medias, firstName, sortBy){
     
     // Boucle de création des cards
     for (const mediaItem of sortedMedias) {
-        let mediaCard = new MediaFactory(mediaItem, firstName);        
+        let mediaCard = new MediaFactory(mediaItem, firstName);   
+        // @ts-ignore     
         articlesList += mediaCard.article;
     }
 
@@ -176,6 +184,7 @@ function displayMedia(medias, firstName, sortBy){
     let lightbox = new Lightbox(sortedMedias, firstName);
     for (const link of listMediaLinks) {
         link.addEventListener("click", (e) => {
+            // @ts-ignore
             lightbox.show(e.currentTarget.dataset.id);
         });
     }
@@ -215,7 +224,9 @@ function addLike(){
     this.addEventListener("click", removeLike);
 
     // Incrémentation du total de likes en bas de page
+    // @ts-ignore
     let currentTotal = parseInt(document.getElementById("divTotalLikes").firstElementChild.innerText);
+    // @ts-ignore
     document.getElementById("divTotalLikes").firstElementChild.innerText = currentTotal + 1;
 }
 
@@ -232,7 +243,9 @@ function addLike(){
     this.addEventListener("click", addLike);
 
     // Incrémentation du total de likes en bas de page
+    // @ts-ignore
     let currentTotal = parseInt(document.getElementById("divTotalLikes").firstElementChild.innerText);
+    // @ts-ignore
     document.getElementById("divTotalLikes").firstElementChild.innerText = currentTotal - 1;
 }
 
@@ -242,6 +255,7 @@ function addLike(){
  */
 async function initPage(){
     // Récupération de l'ID du photographge via l'URL
+    // @ts-ignore
     let params = (new URL(document.location)).searchParams;
 
     // Chargement des données et médias liés à cet id
@@ -267,13 +281,15 @@ async function initPage(){
 
     // Gestion du clavier lors des interactions avec la flèche pour étendre/réduire la liste de filtres
     document.querySelector("#arrow-down").addEventListener("keyup", (e) =>{
-        // Keycode 13 = Entrée
+        // Keycode 13 = Entrée 
+        // @ts-ignore
         if (e.keyCode == "13"){
             displayFilters();
         }
     });
     document.querySelector("#arrow-up").addEventListener("keyup", (e) =>{
         // Keycode 13 = Entrée
+        // @ts-ignore
         if (e.keyCode == "13"){
             displayFilters();
         }

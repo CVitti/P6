@@ -25,6 +25,7 @@ async function displayData(photographers) {
     let photographerArticle = "";
     photographers.forEach((photographer) => {
         // Accumulation du code HTML à chaque appel dans la variable
+        // @ts-ignore
         photographerArticle += photographerFactory(photographer); 
     });    
 

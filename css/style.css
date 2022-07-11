@@ -7,6 +7,39 @@ body {
     margin: auto;
 }
 
+/* Mise en forme du contour de focus pour la navigation au clavier */
+*:focus-visible{
+    outline: solid 2px #901C1C;
+    outline-offset: 2px;
+}
+
+button:focus-visible, span:focus-visible{
+    outline-color:  white;
+    box-shadow: none;
+}
+
+#lightbox button:focus-visible, img#closeForm:focus-visible{
+    outline-color: #901C1C;
+    outline-offset: 4px;
+}
+
+input:focus-visible{
+    outline-color: transparent;
+}
+
+a.mediaLink:focus-visible{
+    outline-style: dashed;
+}
+
+button:focus-visible{
+    outline-offset: -6px;
+}
+
+button:focus-visible, span:focus-visible{
+    outline-color:  white;
+    box-shadow: none;
+}
+
 a{
     text-decoration: none;
 }
@@ -60,7 +93,7 @@ h1 {
 .photographer_section article h2 {
     color: #D3573C;
     font-size: 36px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 /* Photo de profil du photographe */
@@ -75,8 +108,11 @@ img.profile{
 /* Infos supplémentaires sur le photographe */
 .photographer_section article p{
     margin: 0;
-    margin-bottom: 5px;
     font-size: 14px;
+}
+
+.photographer_section article{
+    row-gap: 5px;
 }
 
 p.bold{

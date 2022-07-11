@@ -17,11 +17,11 @@
       <img src="assets/images/logo.png" class="logo" alt="Fiesheye Home page"/>
     </a>
   </header>
-  <main id="main">
+  <main id="main" aria-hidden="false">
     <!-- Section contenant les infos sur le photographe, la modale et son image de profil -->
     <section class="photograph-header spacing">
       <div id="photograph-data"></div>
-      <button class="contact_button" onclick="displayModal()" aria-label="Contactez Moi">Contactez-moi</button>
+      <button class="contact_button" onclick="displayModal()" id="openModal" aria-label="Contactez Moi" aria-haspopup="dialog" aria-controls="contact_modal">Contactez-moi</button>
       <div id="photograph-picture"></div>
     </section>
     
@@ -29,16 +29,20 @@
     <section class="media-section">
       <div class="divFilter smallSpacing">
         <label id="labelTri">Trier par</label>
-        <ul id="listFilters">
-          <li id="firstOption">
+        <ul id="listFilters" role="listbox">
+          <li id="firstOption" aria-selected="true">
             <button class="listButton spacing" id="btnSortLikes" aria-labelledby="labelTri">Popularité</button>          
           </li>
-          <span id="arrow-down" class="visible" tabindex="0">
-            <i class="fa-solid fa-angle-down fa-lg"></i>
-          </span>
-          <span id="arrow-up" class="hidden" tabindex="0">
-            <i class="fa-solid fa-angle-up fa-lg"></i>
-          </span>  
+          <li>
+            <!-- Flèche du menu vers le bas, utilisée pour développer les options -->
+            <span id="arrow-down" class="visible" tabindex="0" role="button" aria-haspopup="listFilters" aria-expanded="true">
+              <i class="fa-solid fa-angle-down fa-lg"></i>
+            </span>
+            <!-- Flèche du menu vers le haut, utilisée pour rétracter les options -->
+            <span id="arrow-up" class="hidden" tabindex="0" role="button" aria-haspopup="listFilters" aria-expanded="true">
+              <i class="fa-solid fa-angle-up fa-lg"></i>
+            </span>
+          </li>            
           <li class="hidden" id="secondOption">
             <button class="listButton spacing" id="btnSortDate" aria-labelledby="labelTri">Date</button>
           </li>
@@ -53,21 +57,21 @@
   </main>
   
   <!-- Modale de la Lightbox -->
-  <div id="lightbox" tabindex="-1">
-    <div id="contentLightbox" aria-label="Vue agrandie du média">
-      <button class="previousMedia lightboxIcon" aria-label="Média précédent"><i class="fa-solid fa-angle-left fa-4x"></i></button>
+  <div id="lightbox" tabindex="-1" role="dialog" aria-hidden="true" aria-modal="true" aria-label="Vue agrandie du média">
+    <div id="contentLightbox">
+      <button class="previousMedia lightboxIcon" id="previousMedia" aria-label="Média précédent"><i class="fa-solid fa-angle-left fa-4x"></i></button>
       <div id="divMediaLightbox"></div>
-      <button class="nextMedia lightboxIcon" aria-label="Média suivant"><i class="fa-solid fa-angle-right fa-4x"></i></button>
-      <button class="closeLightbox lightboxIcon" aria-label="Fermer la fenêtre"><i class="fa-solid fa-xmark fa-4x"></i></button>
+      <button class="nextMedia lightboxIcon" id="nextMedia" aria-label="Média suivant"><i class="fa-solid fa-angle-right fa-4x"></i></button>
+      <button class="closeLightbox lightboxIcon" id="closeLightbox" aria-label="Fermer la fenêtre"><i class="fa-solid fa-xmark fa-4x"></i></button>
     </div>
   </div>
   
   <!-- Modale du formulaire -->
-  <div id="contact_modal">
+  <div id="contact_modal" tabindex="-1" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal">
       <header aria-labelledby="h2Contact">
         <h2 id="h2Contact">Contactez-moi</h2>
-        <img src="assets/icons/close.svg" onclick="closeModal()" alt="Bouton de fermeture"/>
+        <img src="assets/icons/close.svg" onclick="closeModal()" id="closeForm" tabindex="0" alt="Bouton de fermeture"/>
       </header>
       <form id="formContact">
         <div>

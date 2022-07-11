@@ -5,14 +5,14 @@ export default class Media{
         this.id = options.id;
     }
     create(mediaContent){
-        let mediaTitle = `<h2 class="mediaTitle spacing">${this.title}</h2>`;
+        let mediaTitle = `<p class="mediaTitle spacing">${this.title}</p>`;
         let mediaLikes = `
                         <div class="divLikes" aria-label="likes">
                             <div class="smallSpacing">${this.likes}</div>
                             <i class="fa-solid fa-heart fa-lg"></i>
                         </div>`;
         this.article = `<article class="articleMedia">
-                            <a href="#" aria-label="${this.title}, vue agrandie" data-id="${this.id}" class="mediaLink">
+                            <a href="#" aria-label="${this.title}, vue agrandie" data-id="${this.id}" id="${this.id}" class="mediaLink" role="button" aria-haspopup="dialog" aria-controls="lightbox">
                             ${mediaContent}
                             </a>                            
                             ${mediaTitle}

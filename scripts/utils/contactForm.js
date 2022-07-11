@@ -16,9 +16,47 @@ document.querySelector("#submitContact")?.addEventListener("click", (e) =>{
  */
 function displayModal() {
     const modal = document.getElementById("contact_modal");
+    // @ts-ignore
     const fullName = document.querySelector("h1.name").innerText;
+    const focusableElements = document.querySelectorAll("#contact_modal input, #contact_modal textarea, #contact_modal  img, #contact_modal button");
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[(focusableElements.length - 1)];
+
+    // Ajout du nom du photographe dans le titre de la modale
     document.getElementById("h2Contact").innerHTML = "Contactez-moi " + fullName;
+    
+    // Affichage de la modale
     modal.style.display = "flex";
+
+    // Gestion de l'accessiblité sur la modale et le main, à l'ouverture de la modale
+    document.getElementById("main").ariaHidden = "true";
+    document.getElementById("contact_modal").ariaHidden = "false";
+
+    // Fermeture de la modale lors de l'appui sur Echap, gestion de la navigation au clavier avec tab
+    document.getElementById("contact_modal").focus(); 
+
+    document.querySelector("#contact_modal").addEventListener("keydown", (e) =>{
+        const currentElement = e.target;
+
+        // @ts-ignore
+        if (e.key === "Escape" || (e.key === "Enter" && currentElement == firstElement)){
+            e.preventDefault();
+            closeModal();            
+        }else if(currentElement == lastElement){
+            // @ts-ignore
+            if(!e.shiftKey && e.key === "Tab"){
+                e.preventDefault();
+                document.getElementById(firstElement.id).focus();
+            }
+        }else if(currentElement == firstElement){
+            // @ts-ignore
+            if(e.shiftKey && e.key === 'Tab'){
+                e.preventDefault();
+                document.getElementById(lastElement.id).focus();
+            }
+        }
+
+    });
 }
 
 /**
@@ -26,12 +64,21 @@ function displayModal() {
  */
 function closeModal() {
     const modal = document.getElementById("contact_modal");
+
+    // Réinitialisation des dataset sur les champ pour retirer les erreurs
     for (const field of fields) {
         document.getElementById(field.id).parentElement.dataset.error = "";
         document.getElementById(field.id).dataset.valid = "";
     }
+    // Reset du formulaire
     document.forms["formContact"].reset();
+
     modal.style.display = "none";
+
+    // Gestionde l'accessiblité sur la modale et le main, à la fermeture de la modale
+    document.getElementById("main").ariaHidden = "false";
+    document.getElementById("contact_modal").ariaHidden = "true";
+    document.getElementById("openModal").focus();
 }
 
 /**
@@ -97,6 +144,7 @@ function confirmForm(e){
     console.clear();
     if (hasInvalidField == false) {
         for (const field of fields) {
+            // @ts-ignore
             console.log(field.name + " : " + field.value);
         }
     } else {

@@ -70,6 +70,7 @@ h1.name{
 a.mediaLink{
     width: 350px;
     height: 300px;
+    border-radius: 10px;
 }
 
 .mediaTitle{
@@ -79,6 +80,7 @@ a.mediaLink{
     align-items: center;
     font-size: 20px;
     margin: 0;
+    font-weight: 600;
 }
 
 .divLikes{
@@ -311,8 +313,16 @@ form input[data-valid="true"], form textarea.inputMessage[data-valid="true"]{
     border: solid 2px #1fca3b;
 }
 
+form input[data-valid="true"]:focus-visible, form textarea.inputMessage[data-valid="true"]:focus-visible{
+    background-color: #d4ffdb;
+}
+
 form input[data-valid="false"], form textarea.inputMessage[data-valid="false"]{
     border: solid 2px #901C1C;
+}
+
+form input[data-valid="false"]:focus-visible, form textarea.inputMessage[data-valid="false"]:focus-visible{
+    background-color: #ffd4d4;
 }
 
 form input[data-valid=""], form textarea.inputMessage[data-valid=""]{
