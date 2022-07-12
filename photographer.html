@@ -30,16 +30,16 @@
       <div class="divFilter smallSpacing">
         <label id="labelTri">Trier par</label>
         <ul id="listFilters" role="listbox">
-          <li id="firstOption" aria-selected="true">
+          <li id="firstOption" aria-selected="true" aria-checked="true" role="listitem">
             <button class="listButton spacing" id="btnSortLikes" aria-labelledby="labelTri">Popularité</button>          
           </li>
           <li>
             <!-- Flèche du menu vers le bas, utilisée pour développer les options -->
-            <span id="arrow-down" class="visible" tabindex="0" role="button" aria-haspopup="listFilters" aria-expanded="true">
+            <span id="arrow-down" class="visible" tabindex="0" role="button" aria-haspopup="listbox" aria-expanded="false">
               <i class="fa-solid fa-angle-down fa-lg"></i>
             </span>
             <!-- Flèche du menu vers le haut, utilisée pour rétracter les options -->
-            <span id="arrow-up" class="hidden" tabindex="0" role="button" aria-haspopup="listFilters" aria-expanded="true">
+            <span id="arrow-up" class="hidden" tabindex="0" role="button" aria-haspopup="listbox" aria-expanded="true">
               <i class="fa-solid fa-angle-up fa-lg"></i>
             </span>
           </li>            

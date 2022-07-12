@@ -1,6 +1,8 @@
 import MediaFactory from "../factories/MediaFactory.js";
 import Lightbox from "../utils/Lightbox.js";
 
+let lightbox = null;
+
 /**
  * Gestion de l'affichage des éléments de filtrage des médias
  */
@@ -77,7 +79,7 @@ function displayHeader(data, idPhotograph){
  * @param {*} firstName Prénom du photographe
  */
 
-function displayMedia(medias, firstName, sortBy){
+function displayMedia(medias, firstName, sortBy,){
 
     const divMedias = document.getElementById("divMedias"); // Récupération de la section où seront affichés les médias
     let articlesList = ""; // Contiendra le code HTML des articles à créer
@@ -181,7 +183,7 @@ function displayMedia(medias, firstName, sortBy){
 
     // Gestion de la lightbox sur le lien de chaque média
     let listMediaLinks = document.querySelectorAll("a.mediaLink");
-    let lightbox = new Lightbox(sortedMedias, firstName);
+    lightbox.mediasList = sortedMedias;
     for (const link of listMediaLinks) {
         link.addEventListener("click", (e) => {
             // @ts-ignore
@@ -269,6 +271,7 @@ async function initPage(){
 
     // Filtrage des medias
     const photographerMedias = mediaData.filter(media => media.photographerId == params.get('id'))
+    lightbox = new Lightbox(photographerMedias, firstName);
 
     // Appel des fonctions pour afficher les infos du photographe, ses médias ainsi que son total de likes et son tarif journalier 
     displayHeader(photographData, params.get('id'));
