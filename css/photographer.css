@@ -44,7 +44,7 @@ h1.name{
 /* Animation de chargement des infos du header pour permettre leur chargement complet et mise en forme */
 
 .photograph-header, .media-section{
-    animation: loadingFade 1.5s 2s;
+    animation: loadingFade 1s 1s;
     animation-fill-mode: forwards;
     opacity: 0;
 }
