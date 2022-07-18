@@ -12,7 +12,7 @@ export default class Media{
                             <i class="fa-solid fa-heart fa-lg"></i>
                         </div>`;
         this.article = `<article class="articleMedia">
-                            <a href="#" aria-label="${this.title}, vue agrandie" data-id="${this.id}" id="${this.id}" class="mediaLink" role="button" aria-haspopup="dialog" aria-controls="lightbox">
+                            <a href="#" title="${this.title}, vue agrandie" data-id="${this.id}" id="${this.id}" class="mediaLink" role="button" aria-haspopup="dialog" aria-controls="lightbox">
                             ${mediaContent}
                             </a>                            
                             ${mediaTitle}
